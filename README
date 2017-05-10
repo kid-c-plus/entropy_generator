@@ -1,0 +1,13 @@
+~ Entropy Generator ~
+
+This device generates entropic random numbers from a periodically sampled accelerometer and exports them to the user. The device hardware consists of an Arduino Uno, an Adafruit 3-axis accelerometer (MMA8451) and a 9-volt battery. It communicates with the user computer through a serial USB communication.
+
+The device samples the accelerometer once per second. If the readings are sufficiently different from the last accepted reading (indicating that the device has moved in that time), the three axis accelerometer readings (all 16-bit signed integers, in an acceleration range from -2g to 2g) are XORed together and the lower 8 bits of the resulting figure are stored in memory.
+
+The user can access the stored random numbers by sending one of three request commands. The syntax is as follows:
+
+* n; - the device returns the number of samples available to be read
+
+* r <quantity>; - the device returns the requested number of random 8-bit samples, provided it has enough (if the quantity is left blank, all samples are returned)
+
+* p <quantity> <minimum> <maximum>; - the device returns the requested number of pseudorandom numbers within the given range. The numbers are generated using Arudino's onboard PRNG, seeded with four 8-bit random samples
